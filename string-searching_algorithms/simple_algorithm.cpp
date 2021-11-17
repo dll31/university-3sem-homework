@@ -6,10 +6,6 @@ outputData simple_Algorithm(std::string& needle, std::string haystack)
 {
     outputData out;
 
-    int haystackLen = (int)haystack.length();
-    int needleLen = (int)needle.length();
-
-
     for (int i = 0; i < (haystack.length() - needle.length()); i++)
     {
         for (int j = 0; j < needle.length(); j++)
@@ -18,11 +14,11 @@ outputData simple_Algorithm(std::string& needle, std::string haystack)
                 break;
 
             if (j == needle.length() - 1)
-                out.sId.push_back(i);
+                out.id.push_back(i);
         }
     }
 
-    if (out.sId.empty())
+    if (out.id.empty())
         out.errors.push_back(-1);
 
     return out;

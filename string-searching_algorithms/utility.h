@@ -14,6 +14,6 @@ struct data
 
 struct outputData
 {
-    std::vector<int> sId;
+    std::vector<int> id;
     std::vector<int> errors;
 };
