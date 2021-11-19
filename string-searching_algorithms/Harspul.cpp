@@ -1,10 +1,10 @@
 #pragma warning( push )
 #pragma warning( disable : 4789 )
 #include "Harspul.h"
-int SearchSymbols(char haystack, std::string& needle)
+int SearchSymbols(char haystack, std::string& needle,int length)
 {
 	int k = -1;
-	for (int i = 0; i < 8; ++i)
+	for (int i = 0; i < length; ++i)
 	{
 		if (haystack == needle[i])
 		{
@@ -14,17 +14,17 @@ int SearchSymbols(char haystack, std::string& needle)
 	}
 	if (k == -1)
 	{
-		return 7;
+		return length-1;
 	}
 	else
 	{
 		return k;
 	}
 }
-bool Proverka(std::string& needle, std::string haystack, int i)
+bool Proverka(std::string& needle, std::string haystack, int i,int length)
 {
 	int k = 0;
-	for (int j = 7; j > 0; --j)
+	for (int j = length-1; j > 0; --j)
 	{
 		if (haystack[j + i] != needle[j])
 		{
@@ -40,21 +40,21 @@ bool Proverka(std::string& needle, std::string haystack, int i)
 		return false;
 	}
 }
-int Slojenie(std::string& needle, std::string haystack, int shiftTable[8], int i)
+int Slojenie(std::string& needle, std::string haystack, int shiftTable[8], int i,int length)
 {
-	for (int j = 7; j > 0; --j)
+	for (int j = length-1 ;j > 0; --j)
 	{
 		if (haystack[j + i] != needle[j])
 		{
-			return shiftTable[SearchSymbols(haystack[j + i], needle)];
+			return shiftTable[SearchSymbols(haystack[j + i], needle,length)];
 		}
 	}
 }
 outputData Algroithm_Harspul(std::string& needle, std::string haystack)
 {
 	outputData out;
-	int length = 8;
-	int shiftTable[8];
+	int length = needle.length();
+	int shiftTable[100];
 	for (int i = 0; i < length; ++i)
 	{
 		if (length-1!=i)
@@ -67,17 +67,17 @@ outputData Algroithm_Harspul(std::string& needle, std::string haystack)
 		}
 	}
 	int i = 0;
-	int slojenie = 8;
 	while (i<haystack.length())
 	{
-		if (Proverka(needle, haystack, i))
+		if (Proverka(needle, haystack, i,length))
 		{
 			out.id.push_back(i);
-			i = i + 8;
+			i = i + length;
+			break;
 		}
 		else
 		{
-			i = i + Slojenie(needle, haystack, shiftTable, i);
+			i = i + Slojenie(needle, haystack, shiftTable, i,length);
 		}
 	}
 	if (out.id.empty())
