@@ -13,9 +13,16 @@ int main()
 
     outputData data = simple_Algorithm(needle, haystack);
     
-    for (auto i : data.id)
-    {   
-        std::cout << i << '\n';
+    if (data.errors.empty())
+    {
+        for (auto i : data.id)
+        {
+            std::cout << i << '\n';
+        }
+    }
+    else
+    {
+        std::cout << data.errors[0];
     }
     
 }
