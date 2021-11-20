@@ -1,0 +1,8 @@
+haystack1.txt	needle1.txt
+
+haystack2.txt	needle2.txt
+
+haystack10.txt	needle10.txt
+
+haystack15.txt	needle15.txt
+
