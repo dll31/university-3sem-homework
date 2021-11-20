@@ -1,12 +1,12 @@
 #pragma warning( push )
 #pragma warning( disable : 4789 )
 #include "Harspul.h"
-int SearchSymbols(char haystack, std::string& needle,int length)
+int SearchSymbols(char haystack,int length,char elements[20])
 {
 	int k = -1;
 	for (int i = 0; i < length; ++i)
 	{
-		if (haystack == needle[i])
+		if (haystack == elements[i])
 		{
 			k = i;
 			break;
@@ -14,7 +14,7 @@ int SearchSymbols(char haystack, std::string& needle,int length)
 	}
 	if (k == -1)
 	{
-		return length-1;
+		return length;
 	}
 	else
 	{
@@ -24,9 +24,9 @@ int SearchSymbols(char haystack, std::string& needle,int length)
 bool Proverka(std::string& needle, std::string haystack, int i,int length)
 {
 	int k = 0;
-	for (int j = length-1; j > 0; --j)
+	for (int j = 0; j <length;++j)
 	{
-		if (haystack[j + i] != needle[j])
+		if (haystack[i+j] != needle[j])
 		{
 			k += 1;
 		}
@@ -40,31 +40,59 @@ bool Proverka(std::string& needle, std::string haystack, int i,int length)
 		return false;
 	}
 }
-int Slojenie(std::string& needle, std::string haystack, int shiftTable[8], int i,int length)
+int Slojenie(std::string& needle, std::string haystack, int shiftTable[20], int i,int length,char elements[20],int lengthShiftAndElements)
 {
-	for (int j = length-1 ;j > 0; --j)
+	for (int j = length-1;j > 0; --j)
 	{
-		if (haystack[j + i] != needle[j])
+		if (haystack[i+j]!= needle[j])
 		{
-			return shiftTable[SearchSymbols(haystack[j + i], needle,length)];
+			return shiftTable[SearchSymbols(haystack[i + j], lengthShiftAndElements,elements)];
 		}
+	}
+}
+bool ProverkaElements(char needle, char Elements[20], int length)
+{
+	int k = 0;
+	for (int i = 0; i < length; ++i)
+	{
+		if (needle == Elements[i])
+		{
+			k += 1;
+		}
+	}
+	if (k == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 outputData Algroithm_Harspul(std::string& needle, std::string haystack)
 {
 	outputData out;
 	int length = needle.length();
-	int shiftTable[100];
-	for (int i = 0; i < length; ++i)
+	char elements[20];
+	int shift[20];
+	for (int i = 0; i < 20; ++i)
 	{
-		if (length-1!=i)
+		elements[i] = ' ` ';
+	}
+	int lengthShiftAndElements = 0;
+	for (int i = length - 2; i > -1; --i)
+	{
+		if (ProverkaElements(needle[i], elements, length))
 		{
-			shiftTable[i] = length - i - 1;
+			elements[lengthShiftAndElements] = needle[i];
+			shift[lengthShiftAndElements] = length - 1 - i;
+			lengthShiftAndElements += 1;
 		}
-		else
-		{
-			shiftTable[i] = length;
-		}
+	}
+	shift[lengthShiftAndElements] = length;
+	if (ProverkaElements(needle[length - 1], elements, length))
+	{
+		elements[lengthShiftAndElements] = needle[length-1];
 	}
 	int i = 0;
 	while (i<haystack.length())
@@ -72,12 +100,11 @@ outputData Algroithm_Harspul(std::string& needle, std::string haystack)
 		if (Proverka(needle, haystack, i,length))
 		{
 			out.id.push_back(i);
-			i = i + length;
 			break;
 		}
 		else
 		{
-			i = i + Slojenie(needle, haystack, shiftTable, i,length);
+			i = i + Slojenie(needle, haystack, shift, i,length,elements,lengthShiftAndElements);
 		}
 	}
 	if (out.id.empty())
