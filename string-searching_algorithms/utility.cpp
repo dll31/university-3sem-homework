@@ -1,6 +1,13 @@
 #include "utility.h"
 #include <chrono>
 
+void algorithmsContainer::addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg)
+{
+    algorithm a = { name, alg };
+    this->algsList.push_back(a);
+}
+
+
 db::db(std::string indexFilename)
 {
     this->indexFile = indexFilename;

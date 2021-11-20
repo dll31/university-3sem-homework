@@ -34,9 +34,14 @@ struct algorithm
 };
 
 
-struct algorithms
+
+class algorithmsContainer
 {
-    std::vector<algorithm> allAlgs;
+    std::vector<algorithm> algsList;
+
+public:
+    void addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg);
+
 };
 
 
