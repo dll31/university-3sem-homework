@@ -50,6 +50,8 @@ int db::parseIndexFile()
 
 int db::loadFrame(dbFsFrame& currentFsFrame)
 {
+    currentFrame = {};
+    
     std::ifstream st(currentFsFrame.haystackFilename);
     if (!st.is_open())
         return -1;
@@ -69,7 +71,8 @@ int db::loadFrame(dbFsFrame& currentFsFrame)
 
     std::string str;
     int sol; 
-    _st >> str >> sol;
+    std::getline(_st, str, '\n');
+    _st >> sol;
     if (_st.fail())
         return -3;
 
