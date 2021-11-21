@@ -26,6 +26,28 @@ string::size_type KMP(const string& S, const string& pattern)
 			k = pf[k - 1];
 		}
 	}
+
+	for (int k = 0, i = 0; i < S.length(); ++i)
+	{
+		if (pattern[k] == S[i])
+		{
+			k++;
+
+			if (k == pattern.length())
+			{
+				cout << (i - pattern.length() + 1);
+			}
+
+		}
+		else
+		{
+			if (k != 0)
+			{
+				k = pf[k - 1];
+			}
+		}
+	}
+	return (string::npos);
 }
 
 int main()
