@@ -84,6 +84,19 @@ int db::loadFrame(dbFsFrame& currentFsFrame)
 }
 
 
+void profit(int sol, long int duration)
+{
+    std::cout << "Successful search! " << "Solution: " << sol << '\n';
+    std::cout << "duration " << duration << " ms\n";
+}
+
+
+void no(int rightSol, int wrongSol)
+{
+    std::cout << "Wrong search! " << "Right solution: " << rightSol << " Get solution: " << wrongSol << '\n';
+}
+
+
 void db::loop(algorithmsContainer& algs)
 {
     for (auto ind : index)
@@ -103,20 +116,31 @@ void db::loop(algorithmsContainer& algs)
             auto finish = std::chrono::system_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
 
-            if (currentFrame.solution == -1 && out.id.empty() && out.errors.size() == 1)
+            if (out.errors.size() == 1)
             {
-                std::cout << "Successful search! " << "Solution: " << -1 << '\n';
-                std::cout << "duration " << duration << " ms\n";
+                if (currentFrame.solution == -1)
+                {
+                    profit(currentFrame.solution, duration);
+                }
+                else
+                {
+                    no(currentFrame.solution, out.errors.front());
+                }
+            }
+            else if (out.id.size() == 1)
+            {
+                if (currentFrame.solution == out.id.front())
+                {
+                    profit(currentFrame.solution, duration);
+                }
+                else
+                {
+                    no(currentFrame.solution, out.id.front());
+                }
             }
             else
             {
-                if (currentFrame.solution == out.id[0])
-                {
-                    std::cout << "Successful search! " << "Solution: " << out.id[0] << '\n';
-                    std::cout << "duration " << duration << " ms\n";
-                }
-                else
-                    std::cout << "Wrong search! " << "Right solution: " << currentFrame.solution << " Get solution: " << out.id[0] << '\n';
+                std::cout << "Something wrong.\n";
             }
             std::cout << '\n';
         }
