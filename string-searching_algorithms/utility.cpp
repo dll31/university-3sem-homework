@@ -81,7 +81,7 @@ int db::loadFrame(dbFsFrame& currentFsFrame)
 }
 
 
-void db::loop(algorithms& algs)
+void db::loop(algorithmsContainer& algs)
 {
     for (auto ind : index)
     {
@@ -91,7 +91,7 @@ void db::loop(algorithms& algs)
             continue;
         }
 
-        for (auto a : algs.allAlgs)
+        for (auto a : algs.algsList)
         {
             std::cout << "Algorithm name: " << a.name << '\n';
             

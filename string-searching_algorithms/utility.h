@@ -37,9 +37,10 @@ struct algorithm
 
 class algorithmsContainer
 {
+public:
     std::vector<algorithm> algsList;
 
-public:
+
     void addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg);
 
 };
@@ -58,7 +59,7 @@ class db
 
 public:
     db(std::string indexFilename);
-    void loop(algorithms& algs);
+    void loop(algorithmsContainer& algs);
 
 };
 
