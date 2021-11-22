@@ -1,13 +1,12 @@
-﻿#include <iostream>
-#include <string>
-#include <vector> 
-
+﻿#include "Header.h"
 
 using namespace std;
 
-string::size_type KMP(const string& S, const string& pattern)
+outputData Algroithm_KMP(const string& pattern, const string& S )
 {
+	outputData out;
 	vector<int> pf(pattern.length());
+	cout << "Index, gde peresikaetsy podstroka i stroka" << endl;
 
 	pf[0] = 0;
 	for (int k = 0, i = 1; i < pattern.length(); ++i)
@@ -35,7 +34,7 @@ string::size_type KMP(const string& S, const string& pattern)
 
 			if (k == pattern.length())
 			{
-				cout << (i - pattern.length() + 1);
+				out.id.push_back(i - pattern.length() + 1);
 			}
 
 		}
@@ -47,14 +46,7 @@ string::size_type KMP(const string& S, const string& pattern)
 			}
 		}
 	}
-	return (string::npos);
-}
-
-int main()
-{
-	string pattern = "st";
-	string ss = "testovastroka";
-	KMP(ss, pattern);
-
-	return 0;
-}
+	if (out.id.empty())
+		out.errors.push_back(-1);
+	return out;
+};
