@@ -3,6 +3,7 @@
 
 #include "utility.h"
 #include "simple_algorithm.h"
+#include "Harspul.h"
 
 
 int main()
@@ -13,6 +14,7 @@ int main()
     algorithmsContainer algs;
 
     algs.addAlgorithm("simple search", simple_Algorithm);
+    algs.addAlgorithm("Boyer-Moore-Horspoo", Algroithm_Harspul);
 
     database.loop(algs);
 
