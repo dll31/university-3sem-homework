@@ -8,6 +8,7 @@
 #include <functional>
 #include <fstream>
 
+
 struct outputData
 {
     std::vector<int> id;
@@ -18,7 +19,6 @@ struct outputData
 struct dbFsFrame
 {
     std::string haystackFilename;
-    std::string needlesWithSolitionFilename;
 };
 
 
@@ -49,12 +49,10 @@ struct algorithm
 };
 
 
-
 class algorithmsContainer
 {
 public:
     std::vector<algorithm> algsList;
-
 
     void addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg);
 
@@ -70,9 +68,6 @@ class db
 
     int parseIndexFile();
     int loadHaystack(std::string& haystackFilename);
-    //int loadNeedleWithSolution(std::string& needleFilename);
-    //int loadFrame(dbFsFrame& currentFsFrame);
-    void parseError(int error);
     void needlesGenerator(int countNeedles);
 
 public:

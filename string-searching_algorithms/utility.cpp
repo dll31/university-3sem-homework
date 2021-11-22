@@ -12,7 +12,7 @@ void algorithmsContainer::addAlgorithm(std::string name, std::function<outputDat
 db::db(std::string indexFilename)
 {
     this->indexFile = indexFilename;
-    this->parseError(this->parseIndexFile());
+    this->parseIndexFile();
 }
 
 
@@ -28,7 +28,6 @@ int db::parseIndexFile()
     {
         dbFsFrame fsFrame;
         st >> fsFrame.haystackFilename;
-        fsFrame.needlesWithSolitionFilename = "";
         
         if (st.fail())
         {
@@ -43,7 +42,6 @@ int db::parseIndexFile()
     }
 
     st.close();
-
     std::cout << '\n';
     
     return error;
@@ -69,47 +67,11 @@ int db::loadHaystack(std::string& haystackFilename)
     return 0;
 }
 
-/*
-int db::loadNeedleWithSolution(std::string& needleFilename)
-{
-    currentFrame.needleWithSolution.needle = {};
-    currentFrame.solution = {};
-    
-    std::ifstream st(needleFilename);
-    if (!st.is_open())
-        return -1;
-
-    std::string str;
-    int sol;
-    std::getline(st, str, '\n');
-    st >> sol;
-    if (st.fail())
-        return -3;
-
-    st.close();
-    currentFrame.needle = str;
-    currentFrame.solution = sol;
-}
-*/
-/*
-int db::loadFrame(dbFsFrame& currentFsFrame)
-{
-    currentFrame = {};
-    
-    if (loadHaystack(currentFsFrame.haystackFilename) > 0)
-        return -1;
-
-    if (loadNeedleWithSolution(currentFsFrame.needlesWithSolitionFilename) > 0)
-        return -1;
-
-    return 0;
-}
-*/
 
 void profit(int sol, long int duration)
 {
     std::cout << "Successful search! " << "Solution: " << sol << '\n';
-    std::cout << "duration " << duration << " ms\n";
+    std::cout << "duration " << duration << " microseconds\n";
 }
 
 
@@ -167,7 +129,7 @@ void db::loop(algorithmsContainer& algs)
     {
         if (loadHaystack(ind.haystackFilename) > 0)
         {
-            std::cout << "broken Fs frame " << ind.haystackFilename << " " << ind.needlesWithSolitionFilename << '\n';
+            std::cout << "broken Fs frame " << ind.haystackFilename << '\n';
             continue;
         }
         else
@@ -213,10 +175,4 @@ void db::needlesGenerator(int countNeedles)
 
         currentFrame.needlesWithSolutions.push_back(needleWithSol(needle, sol));
     }
-}
-
-
-void db::parseError(int error)
-{
-
 }
