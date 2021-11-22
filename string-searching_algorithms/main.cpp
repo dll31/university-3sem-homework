@@ -3,6 +3,7 @@
 
 #include "utility.h"
 #include "simple_algorithm.h"
+#include "RabinKarp.h"
 
 
 int main()
@@ -13,6 +14,7 @@ int main()
     algorithmsContainer algs;
 
     algs.addAlgorithm("simple search", simple_Algorithm);
+    algs.addAlgorithm("Rabin-Karp", rabinKarp);
 
     database.loop(algs);
 

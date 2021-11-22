@@ -5,12 +5,6 @@
 
 #define d 10
 
-struct outputData
-{
-    std::vector<int> id;
-    std::vector<int> errors;
-};
-
 outputData rabinKarp(std::string& pattern, std::string text) 
 {
   outputData out;
@@ -56,18 +50,5 @@ outputData rabinKarp(std::string& pattern, std::string text)
       out.errors.push_back(-1);
     }
   return out;
-}
-
-int main() 
-{
-  outputData data;
-  std::string text = "ABCCDDAEFG";
-  std::string pattern = "AEFG";
-  int q = 13;
-  data = rabinKarp(pattern, text, q);
-  for (auto i : data.id)
-    {   
-        std::cout << i << '\n';
-    }
 }
 
