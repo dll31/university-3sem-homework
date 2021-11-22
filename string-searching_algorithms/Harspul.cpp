@@ -1,7 +1,7 @@
 #pragma warning( push )
 #pragma warning( disable : 4789 )
 #include "Harspul.h"
-int SearchSymbols(char haystack,int length,char elements[20])
+int SearchSymbols(char haystack,int length,char elements[100])
 {
 	int k = -1;
 	for (int i = 0; i < length; ++i)
@@ -47,7 +47,7 @@ bool Proverka(std::string& needle, std::string haystack, int i,int length)
 		return false;
 	}
 }
-int Slojenie(std::string& needle, std::string haystack, int shiftTable[20], int i,int length,char elements[20],int lengthShiftAndElements)
+int Slojenie(std::string& needle, std::string haystack, int shiftTable[100], int i,int length,char elements[100],int lengthShiftAndElements)
 {
 	int sovpadenia = 0;
 	int k = -1;;
@@ -75,7 +75,7 @@ int Slojenie(std::string& needle, std::string haystack, int shiftTable[20], int 
 		return shiftTable[SearchSymbols(needle[length-1], lengthShiftAndElements, elements)];
 	}
 }
-bool ProverkaElements(char needle, char Elements[20], int length)
+bool ProverkaElements(char needle, char Elements[100], int length)
 {
 	int k = 0;
 	for (int i = 0; i < length; ++i)
