@@ -14,12 +14,14 @@ outputData simple_Algorithm(std::string& needle, std::string haystack)
                 break;
 
             if (j == needle.length() - 1)
+            {
                 out.id.push_back(i);
+                return out;
+            }
         }
     }
 
-    if (out.id.empty())
-        out.errors.push_back(-1);
+    out.errors.push_back(-1);
 
     return out;
 }
