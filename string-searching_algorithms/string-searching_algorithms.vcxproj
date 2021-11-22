@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="KMP.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rabinKarp.cpp" />
     <ClCompile Include="simple_algorithm.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KMP.h" />
     <ClInclude Include="rabinKarp.h" />
     <ClInclude Include="simple_algorithm.h" />
     <ClInclude Include="utility.h" />

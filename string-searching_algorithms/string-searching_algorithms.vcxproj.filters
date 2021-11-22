@@ -27,6 +27,9 @@
     <ClCompile Include="rabinKarp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KMP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_algorithm.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rabinKarp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
