@@ -1,5 +1,6 @@
 #include "utility.h"
 #include <chrono>
+#include <random>
 
 void algorithmsContainer::addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg)
 {
@@ -48,11 +49,11 @@ int db::parseIndexFile()
 }
 
 
-int db::loadFrame(dbFsFrame& currentFsFrame)
+int db::loadHaystack(std::string& haystackFilename)
 {
-    currentFrame = {};
+    currentFrame.haystack = {};
     
-    std::ifstream st(currentFsFrame.haystackFilename);
+    std::ifstream st(haystackFilename);
     if (!st.is_open())
         return -1;
 
@@ -64,25 +65,45 @@ int db::loadFrame(dbFsFrame& currentFsFrame)
     }
 
     st.close();
-
-    std::ifstream _st(currentFsFrame.needlesWithSolitionFilename);
-    if (!_st.is_open())
-        return -1;
-
-    std::string str;
-    int sol; 
-    std::getline(_st, str, '\n');
-    _st >> sol;
-    if (_st.fail())
-        return -3;
-
-    _st.close();
-    currentFrame.needle = str;
-    currentFrame.solution = sol;
-
     return 0;
 }
 
+/*
+int db::loadNeedleWithSolution(std::string& needleFilename)
+{
+    currentFrame.needleWithSolution.needle = {};
+    currentFrame.solution = {};
+    
+    std::ifstream st(needleFilename);
+    if (!st.is_open())
+        return -1;
+
+    std::string str;
+    int sol;
+    std::getline(st, str, '\n');
+    st >> sol;
+    if (st.fail())
+        return -3;
+
+    st.close();
+    currentFrame.needle = str;
+    currentFrame.solution = sol;
+}
+*/
+/*
+int db::loadFrame(dbFsFrame& currentFsFrame)
+{
+    currentFrame = {};
+    
+    if (loadHaystack(currentFsFrame.haystackFilename) > 0)
+        return -1;
+
+    if (loadNeedleWithSolution(currentFsFrame.needlesWithSolitionFilename) > 0)
+        return -1;
+
+    return 0;
+}
+*/
 
 void profit(int sol, long int duration)
 {
@@ -97,56 +118,98 @@ void no(int rightSol, int wrongSol)
 }
 
 
+void db::algsLoop(algorithmsContainer& algs)
+{
+    for (auto a : algs.algsList)
+    {
+        std::cout << "Algorithm name: " << a.name << '\n';
+
+        auto start = std::chrono::system_clock::now();
+        outputData out = a.alg(currentFrame.needle, currentFrame.haystack);
+        auto finish = std::chrono::system_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+
+        if (out.errors.size() == 1)
+        {
+            if (currentFrame.solution == -1)
+            {
+                profit(currentFrame.solution, duration);
+            }
+            else
+            {
+                no(currentFrame.solution, out.errors.front());
+            }
+        }
+        else if (out.id.size() == 1)
+        {
+            if (currentFrame.solution == out.id.front())
+            {
+                profit(currentFrame.solution, duration);
+            }
+            else
+            {
+                no(currentFrame.solution, out.id.front());
+            }
+        }
+        else
+        {
+            std::cout << "Something wrong.\n";
+        }
+        std::cout << '\n';
+    }
+}
+
+
 void db::loop(algorithmsContainer& algs)
 {
-    for (auto ind : index)
+    
+    
+    
+    /*for (auto ind : index)
     {
-        if (loadFrame(ind))
+        if (loadFrame(ind) > 0)
         {
             std::cout << "broken Fs frame " << ind.haystackFilename << " " << ind.needlesWithSolitionFilename << '\n';
             continue;
         }
 
-        for (auto a : algs.algsList)
-        {
-            std::cout << "Algorithm name: " << a.name << '\n';
-            
-            auto start = std::chrono::system_clock::now();
-            outputData out = a.alg(currentFrame.needle, currentFrame.haystack);
-            auto finish = std::chrono::system_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+        algsLoop(algs);
+    }*/
+}
 
-            if (out.errors.size() == 1)
-            {
-                if (currentFrame.solution == -1)
-                {
-                    profit(currentFrame.solution, duration);
-                }
-                else
-                {
-                    no(currentFrame.solution, out.errors.front());
-                }
-            }
-            else if (out.id.size() == 1)
-            {
-                if (currentFrame.solution == out.id.front())
-                {
-                    profit(currentFrame.solution, duration);
-                }
-                else
-                {
-                    no(currentFrame.solution, out.id.front());
-                }
-            }
-            else
-            {
-                std::cout << "Something wrong.\n";
-            }
-            std::cout << '\n';
-        }
+
+int getRandomBetween(int leftBound, int rightBound)
+{
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(leftBound, rightBound);
+    return distribution(generator);
+}
+
+
+void db::needlesGenerator(int countNeedles)
+{
+    int len = (int)currentFrame.haystack.length();
+    int pieceRange = len / countNeedles;
+
+    std::default_random_engine generator;
+    
+
+    for (int i = 1; i <= countNeedles; i++)
+    {
+        int leftBound = (i - 1) * pieceRange;
+        int rightBound = (i) * pieceRange;
+
+        int leftNeeldeBound = getRandomBetween(leftBound, rightBound);
+        
+        int rightNeeldeBound = getRandomBetween(leftNeeldeBound, rightBound);
+
+        int sol = leftNeeldeBound;
+        std::string needle = currentFrame.haystack.substr(leftNeeldeBound, rightNeeldeBound - leftNeeldeBound);
+
+        currentFrame.needlesWithSolutions.push_back(needleWithSol(needle, sol));
+
     }
-    
-    
+
 }
 
 

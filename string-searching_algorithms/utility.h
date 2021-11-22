@@ -14,18 +14,33 @@ struct outputData
     std::vector<int> errors;
 };
 
+
 struct dbFsFrame
 {
     std::string haystackFilename;
     std::string needlesWithSolitionFilename;
 };
 
+
+struct needleWithSol
+{
+    std::string needle;
+    int sol;
+
+    needleWithSol(std::string& needle, int sol)
+    {
+        this->needle = needle;
+        this->sol = sol;
+    }
+};
+
+
 struct dbDataFrame
 {
     std::string haystack;
-    std::string needle;
-    int solution;
+    std::vector<needleWithSol> needlesWithSolutions;
 };
+
 
 struct algorithm
 {
@@ -54,12 +69,17 @@ class db
     dbDataFrame currentFrame;
 
     int parseIndexFile();
-    int loadFrame(dbFsFrame& currentFsFrame);
+    int loadHaystack(std::string& haystackFilename);
+    //int loadNeedleWithSolution(std::string& needleFilename);
+    //int loadFrame(dbFsFrame& currentFsFrame);
     void parseError(int error);
 
 public:
     db(std::string indexFilename);
+    void algsLoop(algorithmsContainer& algs);
     void loop(algorithmsContainer& algs);
+
+    void needlesGenerator(int countNeedles);
 
 };
 
