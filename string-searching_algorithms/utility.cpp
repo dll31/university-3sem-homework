@@ -27,7 +27,8 @@ int db::parseIndexFile()
     while (st.peek() != EOF)
     {
         dbFsFrame fsFrame;
-        st >> fsFrame.haystackFilename >> fsFrame.needlesWithSolitionFilename;
+        st >> fsFrame.haystackFilename;
+        fsFrame.needlesWithSolitionFilename = "";
         
         if (st.fail())
         {
@@ -118,37 +119,37 @@ void no(int rightSol, int wrongSol)
 }
 
 
-void db::algsLoop(algorithmsContainer& algs)
+void db::algsLoop(algorithmsContainer& algs, needleWithSol& curNeedleWithSol)
 {
     for (auto a : algs.algsList)
     {
         std::cout << "Algorithm name: " << a.name << '\n';
 
         auto start = std::chrono::system_clock::now();
-        outputData out = a.alg(currentFrame.needle, currentFrame.haystack);
+        outputData out = a.alg(curNeedleWithSol.needle, currentFrame.haystack);
         auto finish = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
 
         if (out.errors.size() == 1)
         {
-            if (currentFrame.solution == -1)
+            if (curNeedleWithSol.sol == -1)
             {
-                profit(currentFrame.solution, duration);
+                profit(curNeedleWithSol.sol, duration);
             }
             else
             {
-                no(currentFrame.solution, out.errors.front());
+                no(curNeedleWithSol.sol, out.errors.front());
             }
         }
         else if (out.id.size() == 1)
         {
-            if (currentFrame.solution == out.id.front())
+            if (curNeedleWithSol.sol == out.id.front())
             {
-                profit(currentFrame.solution, duration);
+                profit(curNeedleWithSol.sol, duration);
             }
             else
             {
-                no(currentFrame.solution, out.id.front());
+                no(curNeedleWithSol.sol, out.id.front());
             }
         }
         else
@@ -161,20 +162,24 @@ void db::algsLoop(algorithmsContainer& algs)
 
 
 void db::loop(algorithmsContainer& algs)
-{
-    
-    
-    
-    /*for (auto ind : index)
+{    
+    for (auto ind : index)
     {
-        if (loadFrame(ind) > 0)
+        if (loadHaystack(ind.haystackFilename) > 0)
         {
             std::cout << "broken Fs frame " << ind.haystackFilename << " " << ind.needlesWithSolitionFilename << '\n';
             continue;
         }
-
-        algsLoop(algs);
-    }*/
+        else
+        {
+            needlesGenerator(numberNeedlesForOneHaystack);
+            
+            for (auto i : currentFrame.needlesWithSolutions)
+            {
+                algsLoop(algs, i);
+            }
+        } 
+    }
 }
 
 
@@ -207,9 +212,7 @@ void db::needlesGenerator(int countNeedles)
         std::string needle = currentFrame.haystack.substr(leftNeeldeBound, rightNeeldeBound - leftNeeldeBound);
 
         currentFrame.needlesWithSolutions.push_back(needleWithSol(needle, sol));
-
     }
-
 }
 
 

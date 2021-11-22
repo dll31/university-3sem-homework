@@ -73,13 +73,15 @@ class db
     //int loadNeedleWithSolution(std::string& needleFilename);
     //int loadFrame(dbFsFrame& currentFsFrame);
     void parseError(int error);
+    void needlesGenerator(int countNeedles);
 
 public:
+    int numberNeedlesForOneHaystack = 100;
     db(std::string indexFilename);
-    void algsLoop(algorithmsContainer& algs);
+    void algsLoop(algorithmsContainer& algs, needleWithSol& curNeedleWithSol);
     void loop(algorithmsContainer& algs);
 
-    void needlesGenerator(int countNeedles);
+    
 
 };
 

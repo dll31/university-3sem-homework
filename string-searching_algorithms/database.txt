@@ -1,15 +1,1 @@
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle1.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle2.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle3.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle4.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle5.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle6.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle7.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle8.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle9.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle10.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle11.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle12.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle13.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle14.txt
-database/Anna_Karenina_Leo_Tolstoy_haystack.txt	database/needle15.txt
+database/Anna_Karenina_Leo_Tolstoy_haystack.txt	
