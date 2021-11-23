@@ -1,14 +1,11 @@
-#include <string.h>
-#include <iostream>
-#include <vector>
 #include "RabinKarp.h"
 
-#define d 10
+#define d 256
 
 outputData rabinKarp(std::string& pattern, std::string text) 
 {
   outputData out;
-  int prime_number = 13;
+  int prime_number = 58789;
   int len_of_pattern = pattern.length();
   int len_of_text = text.length();
   int i, j;
@@ -34,7 +31,7 @@ outputData rabinKarp(std::string& pattern, std::string text)
       if (j == len_of_pattern)
       {
         out.id.push_back(i);
-        break;
+        return out;
       }
     }
 
@@ -45,10 +42,7 @@ outputData rabinKarp(std::string& pattern, std::string text)
         hash_for_txt = (hash_for_txt + prime_number);
     }
   }
-  if (out.id.empty())
-    {
-      out.errors.push_back(-1);
-    }
+  out.errors.push_back(-1);
   return out;
 }
 

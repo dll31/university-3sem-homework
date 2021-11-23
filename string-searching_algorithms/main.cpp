@@ -15,7 +15,7 @@ int main()
     algorithmsContainer algs;
 
     algs.addAlgorithm("simple search", simple_Algorithm);
-    //algs.addAlgorithm("Rabin-Karp", rabinKarp);
+    algs.addAlgorithm("Rabin-Karp", rabinKarp);
     algs.addAlgorithm("Knuth-Morris-Pratt", Algroithm_KMP);
 
     database.loop(algs);
