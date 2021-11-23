@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -55,7 +54,22 @@ public:
     std::vector<algorithm> algsList;
 
     void addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg);
+};
 
+
+class outFile 
+{
+private:
+    std::string outDataFilename;
+    bool isOpen;
+public:
+    std::ofstream out;
+
+    outFile();
+    void init(std::string outDataFilename);
+    int openFile();
+    bool isOpenF();
+    //~outFile();
 };
 
 
@@ -71,13 +85,14 @@ class db
     void needlesGenerator(int countNeedles);
 
 public:
-    int numberNeedlesForOneHaystack = 100;
-    db(std::string indexFilename);
-    void algsLoop(algorithmsContainer& algs, needleWithSol& curNeedleWithSol);
-    void loop(algorithmsContainer& algs);
-
+    outFile outputFile;
     
+    int numberNeedlesForOneHaystack = 100;
+    int numberRepeatValue = 10;
 
+    db(std::string indexFilename, std::string outFilename);
+    void algsLoop(algorithmsContainer& algs);
+    void loop(algorithmsContainer& algs);
 };
 
 

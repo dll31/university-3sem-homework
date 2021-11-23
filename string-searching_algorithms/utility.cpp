@@ -2,6 +2,46 @@
 #include <chrono>
 #include <random>
 
+
+outFile::outFile()
+{
+    bool isOpen = false;
+}
+
+void outFile::init(std::string outDataFilename)
+{
+    this->outDataFilename = outDataFilename;
+
+    std::ofstream out(this->outDataFilename);
+    if (!out.is_open())
+        isOpen = false;
+    else
+        isOpen = true;
+}
+
+int outFile::openFile()
+{
+    std::ofstream out(this->outDataFilename);
+    if (!out.is_open())
+        isOpen = false;
+    else
+        isOpen = true;
+    return isOpen;
+}
+
+bool outFile::isOpenF()
+{
+    return isOpen;
+}
+
+
+//outFile::~outFile()
+//{
+//    if (this->isOpenF())
+//        this->out.close();
+//}
+
+
 void algorithmsContainer::addAlgorithm(std::string name, std::function<outputData(std::string&, std::string)> alg)
 {
     algorithm a = { name, alg };
@@ -9,10 +49,14 @@ void algorithmsContainer::addAlgorithm(std::string name, std::function<outputDat
 }
 
 
-db::db(std::string indexFilename)
+db::db(std::string indexFilename, std::string outFilename)
 {
     this->indexFile = indexFilename;
     this->parseIndexFile();
+    this->outputFile.init(outFilename);
+
+    if (!this->outputFile.isOpenF())
+        std::cout << "Broken out filename " << outFilename << '\n';
 }
 
 
@@ -81,44 +125,45 @@ void no(int rightSol, int wrongSol)
 }
 
 
-void db::algsLoop(algorithmsContainer& algs, needleWithSol& curNeedleWithSol)
+void db::algsLoop(algorithmsContainer& algs)
 {
     for (auto a : algs.algsList)
     {
         std::cout << "Algorithm name: " << a.name << '\n';
 
-        auto start = std::chrono::system_clock::now();
-        outputData out = a.alg(curNeedleWithSol.needle, currentFrame.haystack);
-        auto finish = std::chrono::system_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+        if (outputFile.isOpenF())
+            outputFile.out << a.name << '\n';
+        
+        for (auto j : currentFrame.needlesWithSolutions)
+        {
+            for (int i = 0; i < numberRepeatValue; i++)
+            {
+                auto start = std::chrono::system_clock::now();
+                outputData out = a.alg(j.needle, currentFrame.haystack);
+                auto finish = std::chrono::system_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
 
-        if (out.errors.size() == 1)
-        {
-            if (curNeedleWithSol.sol == -1)
-            {
-                profit(curNeedleWithSol.sol, duration);
-            }
-            else
-            {
-                no(curNeedleWithSol.sol, out.errors.front());
+                if (out.errors.size() == 1)
+                {
+                    if (j.sol == -1)
+                        profit(j.sol, duration);
+                    else
+                        no(j.sol, out.errors.front());
+                }
+                else if (out.id.size() == 1)
+                {
+                    if (j.sol == out.id.front())
+                        profit(j.sol, duration);
+                    else
+                        no(j.sol, out.id.front());
+                }
+                else
+                {
+                    std::cout << "Something wrong.\n";
+                }
+                std::cout << '\n';
             }
         }
-        else if (out.id.size() == 1)
-        {
-            if (curNeedleWithSol.sol == out.id.front())
-            {
-                profit(curNeedleWithSol.sol, duration);
-            }
-            else
-            {
-                no(curNeedleWithSol.sol, out.id.front());
-            }
-        }
-        else
-        {
-            std::cout << "Something wrong.\n";
-        }
-        std::cout << '\n';
     }
 }
 
@@ -134,12 +179,8 @@ void db::loop(algorithmsContainer& algs)
         }
         else
         {
-            needlesGenerator(numberNeedlesForOneHaystack);
-            
-            for (auto i : currentFrame.needlesWithSolutions)
-            {
-                algsLoop(algs, i);
-            }
+            needlesGenerator(numberNeedlesForOneHaystack);    
+            algsLoop(algs);
         } 
     }
 }

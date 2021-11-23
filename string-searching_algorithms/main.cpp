@@ -9,13 +9,14 @@
 
 int main()
 {
-    db database = db("database.txt");
+    db database = db("database.txt", "outdata.csv");
     database.numberNeedlesForOneHaystack = 100;
+    database.numberRepeatValue = 3;
 
     algorithmsContainer algs;
 
     algs.addAlgorithm("simple search", simple_Algorithm);
-    //algs.addAlgorithm("Rabin-Karp", rabinKarp);
+    algs.addAlgorithm("Rabin-Karp", rabinKarp);
     algs.addAlgorithm("Knuth-Morris-Pratt", Algroithm_KMP);
 
     database.loop(algs);
