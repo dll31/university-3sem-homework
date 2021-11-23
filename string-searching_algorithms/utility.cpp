@@ -12,8 +12,8 @@ void outFile::init(std::string outDataFilename)
 {
     this->outDataFilename = outDataFilename;
 
-    std::ofstream out(this->outDataFilename);
-    if (!out.is_open())
+    this->out.open(this->outDataFilename);
+    if (!this->out.is_open())
         isOpen = false;
     else
         isOpen = true;
@@ -146,16 +146,28 @@ void db::algsLoop(algorithmsContainer& algs)
                 if (out.errors.size() == 1)
                 {
                     if (j.sol == -1)
+                    {
                         profit(j.sol, duration);
+                        outputFile.out << j.sol << ',' << duration << ',';
+                    }
                     else
+                    {
                         no(j.sol, out.errors.front());
+                        outputFile.out << "invalid" << ',' << -1 << ',';
+                    }
                 }
                 else if (out.id.size() == 1)
                 {
                     if (j.sol == out.id.front())
+                    {
+                        outputFile.out << j.sol << ',' << duration << ',';
                         profit(j.sol, duration);
+                    }
                     else
+                    {
                         no(j.sol, out.id.front());
+                        outputFile.out << "invalid" << ',' << -1 << ',';
+                    }
                 }
                 else
                 {
@@ -163,8 +175,11 @@ void db::algsLoop(algorithmsContainer& algs)
                 }
                 std::cout << '\n';
             }
+            outputFile.out << '\n';
         }
     }
+
+    outputFile.out.close();
 }
 
 

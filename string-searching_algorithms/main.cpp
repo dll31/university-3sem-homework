@@ -11,7 +11,7 @@ int main()
 {
     db database = db("database.txt", "outdata.csv");
     database.numberNeedlesForOneHaystack = 100;
-    database.numberRepeatValue = 3;
+    database.numberRepeatValue = 10;
 
     algorithmsContainer algs;
 
