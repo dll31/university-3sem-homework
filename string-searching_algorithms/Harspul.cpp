@@ -1,114 +1,50 @@
-#pragma warning( push )
-#pragma warning( disable : 4789 )
+#define val -1
+#include "climits"
 #include "Harspul.h"
 
-#define len 400
-int vernut(char haystack, int shift[len],int length)
-{
-	if (shift[haystack] == 0)
-	{
-		return length;
-	}
-	else
-	{
-		return shift[haystack];
-	}
-}
-bool Proverka(std::string& needle, std::string& haystack, int i,int length)
-{
-	int k = 0;
-	for (int j = 0; j <length;++j)
-	{
-		if (i + j < haystack.length()-1) 
-		{
-			if (haystack[i + j] != needle[j])
-			{
-				k += 1;
-			}
-		}
-		else
-		{
-			break;
-		}
-	}
-	if (k == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-int Slojenie(std::string& needle, std::string& haystack, int shift[len], int i,int length)
-{
-	int sovpadenia = 0;
-	char k = ' ';
-	for (int j = length-1;j > 0; --j)
-	{
-		if (i + j < haystack.length())
-		{
-			if (haystack[i + j] != needle[j])
-			{
-				k = haystack[i + j];
-				break;
-			}
-			else
-			{
-				sovpadenia += 1;
-			}
-		}
-	}
-	if (sovpadenia == 0)
-	{
-		return vernut(k, shift, length);
-	}
-	else
-	{
-		return vernut(needle[length-1],shift,length);
-	}
-}
-bool ProverkaElements(char needle, int shift[len])
-{
-	if (shift[needle] == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 outputData Algroithm_Harspul(std::string& needle, std::string haystack)
 {
-	outputData out;
-	int length = needle.length();
-	int shift[len] = { 0 };
-	for (int i = length - 2; i > -1; --i)
-	{
-		if (ProverkaElements(needle[i], shift))
-		{
-			shift[needle[i]] = length - 1 - i;
-		}
-	}
-	if (ProverkaElements(needle[length - 1], shift))
-	{
-		shift[needle[length-1]] = length;
-	}
-	int i = 0;
-	while (i<haystack.length())
-	{
-		if (Proverka(needle, haystack, i,length))
-		{
-			out.id.push_back(i);
-			break;
-		}
-		else
-		{
-			i = i + Slojenie(needle, haystack, shift, i,length);
-		}
-	}
-	if (out.id.empty())
-		out.errors.push_back(-1);
-	return out;
+    int shiftTable[UCHAR_MAX] = {};
+
+    outputData out;
+
+    std::string shiftTableNeedle = needle.substr(0, needle.length() - 1);
+    int lengthNeedle = needle.length();
+
+    for (int i = 0; i <= lengthNeedle - 1; i++)
+    {
+        if (shiftTable[shiftTableNeedle[i]] == 0)
+        {
+            shiftTable[shiftTableNeedle[i]] = lengthNeedle - shiftTableNeedle.find_last_of(shiftTableNeedle[i]) - 1;
+        }
+    }
+
+    for (size_t i = 0; i < UCHAR_MAX; i++)
+        if (shiftTable[i] == 0)
+            shiftTable[i] = lengthNeedle;
+
+    int i = 0;
+    while (true)
+    {
+        if ((i + lengthNeedle) > haystack.length())
+        {
+            out.errors.push_back(-1);
+            break;
+        }
+
+        if (std::equal(&haystack[i], &haystack[i + lengthNeedle], &needle[0]))
+        {
+            out.id.push_back(i);
+            break;
+        }
+        else
+        {
+            int shift= shiftTable[haystack[i + lengthNeedle - 1]];
+            if (shift > lengthNeedle || shift <= 0)
+                shift = lengthNeedle;
+            i += shift;
+        }
+    }
+    return out;
 }
+
