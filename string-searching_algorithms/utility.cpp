@@ -153,7 +153,7 @@ void db::algsLoop(algorithmsContainer& algs)
                     else
                     {
                         no(j.sol, out.errors.front());
-                        outputFile.out << "invalid" << ',' << -1 << ',';
+                        outputFile.out << 0 << ',' << -1 << ',';
                     }
                 }
                 else if (out.id.size() == 1)
@@ -166,7 +166,7 @@ void db::algsLoop(algorithmsContainer& algs)
                     else
                     {
                         no(j.sol, out.id.front());
-                        outputFile.out << "invalid" << ',' << -1 << ',';
+                        outputFile.out << 0 << ',' << -1 << ',';
                     }
                 }
                 else
