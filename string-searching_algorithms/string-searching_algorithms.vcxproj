@@ -144,12 +144,14 @@
     <ClCompile Include="rabinKarp.cpp" />
     <ClCompile Include="simple_algorithm.cpp" />
     <ClCompile Include="utility.cpp" />
+    <ClCompile Include="Harspul.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KMP.h" />
     <ClInclude Include="rabinKarp.h" />
     <ClInclude Include="simple_algorithm.h" />
     <ClInclude Include="utility.h" />
+    <ClInclude Include="Harspul.h"/>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,3 @@
-#define val -1
 #include "climits"
 #include "Harspul.h"
 

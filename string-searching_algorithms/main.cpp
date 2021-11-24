@@ -5,6 +5,7 @@
 #include "simple_algorithm.h"
 #include "RabinKarp.h"
 #include "KMP.h"
+#include "Harspul.h"
 
 
 int main()
@@ -15,9 +16,10 @@ int main()
 
     algorithmsContainer algs;
 
-    algs.addAlgorithm("simple search", simple_Algorithm);
-    algs.addAlgorithm("Rabin-Karp", rabinKarp);
-    algs.addAlgorithm("Knuth-Morris-Pratt", Algroithm_KMP);
+    algs.addAlgorithm("brute force algorithm", simple_Algorithm);
+    algs.addAlgorithm("Rabin-Karp algorithm", rabinKarp);
+    algs.addAlgorithm("Knuth-Morris-Pratt algorithm", Algroithm_KMP);
+    algs.addAlgorithm("Boyer-Moore-Horspool algorithm", Algroithm_Harspul);
 
     database.loop(algs);
 
