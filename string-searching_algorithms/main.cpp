@@ -6,6 +6,7 @@
 #include "RabinKarp.h"
 #include "KMP.h"
 #include "Harspul.h"
+#include "Sunday.h"
 
 
 int main()
@@ -20,6 +21,7 @@ int main()
     algs.addAlgorithm("Rabin-Karp algorithm", rabinKarp);
     algs.addAlgorithm("Knuth-Morris-Pratt algorithm", Algroithm_KMP);
     algs.addAlgorithm("Boyer-Moore-Horspool algorithm", Algroithm_Harspul);
+    algs.addAlgorithm("Sunday algorithm", Sunday);
 
     database.loop(algs);
 
